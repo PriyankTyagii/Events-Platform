@@ -5,6 +5,10 @@ import { saveScrapedEvents } from '@/lib/db-service';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
+// NOTE: Vercel Hobby plan only allows daily cron jobs
+// This runs once per day at midnight UTC (0 0 * * *)
+// For more frequent runs, upgrade to Pro plan or use external cron service
+
 export async function GET(request: NextRequest) {
   try {
     // Verify cron secret (Vercel automatically adds this header)
