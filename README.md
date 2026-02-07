@@ -1,4 +1,5 @@
 # Events Platform
+[![Deploy with Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
 
 A full-stack event discovery and management platform with automated scraping, admin dashboard, and AI-powered recommendations.
 
@@ -89,7 +90,7 @@ CRON_SECRET=
 
 Deploy to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)[(https://events-platform-ruddy.vercel.app/)]
+[![Deploy with Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
 
 Or manually:
 
