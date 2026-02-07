@@ -68,7 +68,7 @@ export async function saveScrapedEvents(
   const cutoffDate = new Date();
   cutoffDate.setHours(cutoffDate.getHours() - 48); // 48 hours old
 
-  for (const [id, event] of existingEvents) {
+  for (const [id, event] of Array.from(existingEvents.entries())) {
     if (!scrapedIds.has(id) && event.status !== 'inactive') {
       const lastScraped = new Date(event.lastScraped);
       

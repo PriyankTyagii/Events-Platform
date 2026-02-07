@@ -19,7 +19,7 @@ export default function Home() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('/api/events?status=new,updated&limit=50');
+      const response = await fetch('/api/events?status=new,updated,imported&limit=50');
       const data = await response.json();
       
       if (data.success) {
@@ -43,19 +43,37 @@ export default function Home() {
       
       <main className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
-              Discover Sydney Events
-            </h1>
-            <p className="text-lg text-gray-600">
-              Find the best events happening in Sydney, Australia
-            </p>
+        <div className="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center">
+              <h1 className="text-5xl font-bold mb-4">
+                Discover Sydney Events
+              </h1>
+              <p className="text-xl text-gray-300 mb-8">
+                Your curated guide to the best events happening in Sydney
+              </p>
+              <div className="flex gap-4 justify-center">
+                <div className="text-center">
+                  <div className="text-3xl font-bold">{events.length}+</div>
+                  <div className="text-sm text-gray-400">Events</div>
+                </div>
+                <div className="border-l border-gray-700"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold">3</div>
+                  <div className="text-sm text-gray-400">Sources</div>
+                </div>
+                <div className="border-l border-gray-700"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold">24/7</div>
+                  <div className="text-sm text-gray-400">Updated</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Events Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {loading ? (
             <div className="flex items-center justify-center py-20">
               <div className="text-center">
@@ -73,9 +91,12 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <div className="mb-6">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Upcoming Events
+                </h2>
                 <p className="text-sm text-gray-600">
-                  Showing {events.length} event{events.length !== 1 ? 's' : ''}
+                  {events.length} event{events.length !== 1 ? 's' : ''} available
                 </p>
               </div>
 
@@ -93,16 +114,13 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Get Tickets Modal */}
       <GetTicketsModal
         event={selectedEvent}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
 
-      {/* AI Chat Assistant */}
       <AIChat />
     </>
   );
 }
-
