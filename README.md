@@ -1,98 +1,105 @@
-# Sydney Events Platform - Complete Full-Stack Application
+# Events Platform
 
-A comprehensive event discovery and management platform for Sydney, Australia, with AI-powered recommendations.
+A full-stack event discovery and management platform with automated scraping, admin dashboard, and AI-powered recommendations.
 
-## 🎯 Overview
+## Features
 
-Full-stack web application that automatically scrapes events from multiple sources, displays them in a beautiful interface, and includes an admin dashboard with AI-powered event recommendations.
+### Core Platform
+- **Event Discovery** - Browse events from multiple sources with real-time updates
+- **Admin Dashboard** - Secure Google OAuth authentication with comprehensive event management
+- **Advanced Filtering** - Search by city, keyword, date range, and status
+- **Automated Scraping** - Scheduled updates every 6 hours via Vercel Cron
+- **Status Tracking** - Automatic detection of new, updated, and inactive events
 
-## ✨ Features
+### AI Assistant (Bonus)
+- **Natural Language Chat** - Interactive event recommendations
+- **Smart Matching** - AI-powered suggestions based on user preferences
+- **Notification System** - Alerts for relevant events
+- **Powered by Phi-3** - Free, open-source LLM via Hugging Face
 
-### Public Features
-- 🎭 **Event Discovery**: Browse events from multiple Sydney sources
-- 🎨 **Beautiful UI**: Clean, modern, minimalist design
-- 📧 **Email Capture**: Get tickets with email opt-in
-- 🤖 **AI Assistant**: Chat-based event recommendations (BONUS)
-- 📱 **Responsive**: Works on all devices
+## Tech Stack
 
-### Admin Features
-- 🔐 **Google OAuth**: Secure authentication
-- 📊 **Dashboard**: Complete event management
-- 🔍 **Advanced Filters**: City, keyword, date, status
-- 📋 **Table View**: Sortable event list
-- 👁️ **Preview Panel**: Detailed event information
-- ✅ **Import Events**: Manage event lifecycle
-- 🏷️ **Status Tags**: Track event states
-- 🕷️ **Manual Scraper**: Trigger on-demand
+**Frontend:** Next.js 16, TypeScript, TailwindCSS  
+**Backend:** Next.js API Routes, Firebase Firestore  
+**AI:** Hugging Face Inference API (Phi-3)  
+**Deployment:** Vercel  
+**Authentication:** Google OAuth
 
-### Automation
-- ⏰ **Auto-Scraping**: Every 6 hours via Vercel Cron
-- 🔄 **Status Detection**: Automatic new/updated/inactive tagging
-- 💾 **Cloud Database**: Firebase Firestore
-- 🚀 **Auto-Deploy**: Push to deploy on Vercel
-
-### AI Recommendations (BONUS)
-- 🤖 **Free Open-Source LLM**: Microsoft Phi-3 via Hugging Face
-- 💬 **Chat Interface**: Natural language interaction
-- 🎯 **Smart Matching**: AI-powered event recommendations
-- 🔔 **Notifications**: When matching events appear
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 14, TypeScript, TailwindCSS
-- **Backend**: Next.js API Routes, Firebase
-- **AI**: Hugging Face (Phi-3, Free)
-- **Deployment**: Vercel
-
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install
+# Install dependencies
 npm install
 
-# Configure (see FIREBASE_SETUP.md)
+# Configure environment variables
 cp .env.example .env.local
-# Add your Firebase credentials
 
-# Run
+# Run development server
 npm run dev
 ```
 
-## 📖 Documentation
+Visit `http://localhost:3000`
 
-- **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)** - Firebase configuration
-- **[PHASE2_README.md](PHASE2_README.md)** - Scraper testing
-- **[PHASE3_4_README.md](PHASE3_4_README.md)** - UI & Dashboard
-- **[ASSIGNMENT2_BONUS.md](ASSIGNMENT2_BONUS.md)** - AI system
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Vercel deployment
+## Environment Variables
 
-## 🎯 Assignment Compliance
+```env
+# Firebase
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+FIREBASE_ADMIN_PRIVATE_KEY=
+FIREBASE_ADMIN_CLIENT_EMAIL=
 
-### Assignment 1 ✅
-- [x] Multi-source scraping
-- [x] Auto-update detection
-- [x] Minimalist UI
-- [x] Email capture
-- [x] Google OAuth
-- [x] Admin dashboard
-- [x] All filters & features
+# Google OAuth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
 
-### Assignment 2 (Bonus) ✅
-- [x] AI chat interface
-- [x] Preference collection
-- [x] Event recommendations
-- [x] Notification system
-- [x] Open-source LLM (Free)
+# Hugging Face
+HUGGINGFACE_API_KEY=
 
-## 🌟 Highlights
+# Cron Security
+CRON_SECRET=
+```
 
-- ✅ **100% Functional** - All features working
-- ✅ **Production Ready** - Deployed on Vercel
-- ✅ **AI Powered** - Free LLM integration
-- ✅ **Modern Stack** - Latest technologies
-- ✅ **Clean Code** - TypeScript throughout
-- ✅ **Complete Docs** - Comprehensive guides
+## Documentation
 
+- **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)** - Database configuration
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Vercel deployment guide
+- **[ESLINT_FIX_GUIDE.md](ESLINT_FIX_GUIDE.md)** - Dependency troubleshooting
+- **[CRON_FIX_GUIDE.md](CRON_FIX_GUIDE.md)** - Automated scraping setup
+
+## Project Structure
+
+```
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   ├── admin/             # Admin dashboard
+│   └── chat/              # AI chat interface
+├── components/            # React components
+├── lib/                   # Utilities and services
+│   ├── scrapers/         # Event scrapers
+│   ├── db-service.ts     # Database operations
+│   └── ai-service.ts     # AI recommendations
+└── types/                # TypeScript definitions
+```
+
+## Deployment
+
+Deploy to Vercel with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)(https://events-platform-ruddy.vercel.app/)
+
+Or manually:
+
+```bash
+# Build
+npm run build
+
+# Deploy
+vercel --prod
+```
 ---
 
-Made with ❤️ for Sydney
+Built By Priyank Tyagi
