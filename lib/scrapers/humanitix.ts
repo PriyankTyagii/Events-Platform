@@ -1,60 +1,59 @@
 import * as cheerio from 'cheerio';
 import { Event } from '@/types';
-import { fetchHTML, cleanText, parseDate, generateEventId, ScraperResult } from './utils';
+import { fetchDynamicHTML, cleanText, parseDate, generateEventId, ScraperResult } from './utils';
 
-const HUMANITIX_SYDNEY_URL = 'https://events.humanitix.com/au/sydney';
+const HUMANITIX_SYDNEY_URL = 'https://humanitix.com/au/sydney/events';
 
 export async function scrapeHumanitix(): Promise<ScraperResult> {
   const scrapedAt = new Date().toISOString();
   const events: Partial<Event>[] = [];
 
   try {
-    const html = await fetchHTML(HUMANITIX_SYDNEY_URL);
+    console.log('🎭 Scraping Humanitix...');
+    
+    const html = await fetchDynamicHTML(HUMANITIX_SYDNEY_URL);
     const $ = cheerio.load(html);
 
-    // Humanitix event cards
-    $('[class*="EventCard"], [data-testid*="event"], .event-card').each((_, element) => {
+    // Debug showed only 6 links with href containing "/event"
+    // This suggests the page uses heavy React/JS rendering
+    console.log('Searching for Humanitix events...');
+
+    // Try the links that were found
+    $('a[href*="/event"]').each((_, element) => {
       try {
-        const $card = $(element);
+        const $link = $(element);
         
+        // Get title from link text or nearby headings
         const title = cleanText(
-          $card.find('h2, h3, h4, [class*="title"], [class*="name"]').first().text()
+          $link.text() || 
+          $link.find('h1, h2, h3, h4').first().text() ||
+          $link.closest('div, article').find('h1, h2, h3, h4').first().text()
         );
 
-        if (!title || title.length < 3) return;
+        if (!title || title.length < 5 || title.toLowerCase().includes('sydney events')) return;
 
-        const link = $card.find('a').first().attr('href') || '';
-        const fullUrl = link.startsWith('http') ? link : `https://events.humanitix.com${link}`;
+        const href = $link.attr('href') || '';
+        const fullUrl = href.startsWith('http') ? href : `https://humanitix.com${href}`;
 
-        const image = $card.find('img').first().attr('src') || 
-                     $card.find('img').first().attr('data-src') || '';
+        // Try to find image in parent container
+        const $container = $link.closest('div, article, section');
+        const image = $container.find('img').first().attr('src') || '';
 
+        // Try to find date
         const dateText = cleanText(
-          $card.find('[class*="date"], [class*="time"]').first().text()
+          $container.find('time, [class*="date"]').first().text()
         );
 
-        const venue = cleanText(
-          $card.find('[class*="venue"], [class*="location"]').first().text()
-        );
-
-        const description = cleanText(
-          $card.find('p, [class*="description"]').first().text()
-        );
-
-        const priceText = cleanText(
-          $card.find('[class*="price"]').first().text()
-        );
-
-        const dateStr = new Date().toISOString();
-
+        const dateStr = dateText ? parseDate(dateText) : new Date().toISOString();
+        
         if (title && !events.find(e => e.title === title)) {
           events.push({
-            id: generateEventId(title, dateStr, venue),
+            id: generateEventId(title, dateStr, 'Sydney'),
             title,
             date: dateStr,
-            venueName: venue || 'Sydney',
+            venueName: 'Sydney',
             city: 'Sydney',
-            description: description || `${title}. ${priceText}`,
+            description: title,
             imageUrl: image,
             sourceWebsite: 'Humanitix',
             originalUrl: fullUrl,
@@ -64,12 +63,57 @@ export async function scrapeHumanitix(): Promise<ScraperResult> {
           });
         }
       } catch (e) {
-        // Skip invalid cards
+        // Skip
       }
     });
 
+    // If still nothing, try to find any cards/containers with event-like content
+    if (events.length === 0) {
+      console.log('Trying to find event containers...');
+      
+      $('div[class*="card"], article, section').each((_, element) => {
+        try {
+          const $el = $(element);
+          const link = $el.find('a[href*="/event"]').first();
+          
+          if (link.length === 0) return;
+          
+          const title = cleanText(
+            $el.find('h1, h2, h3, h4, h5').first().text()
+          );
+          
+          if (!title || title.length < 5) return;
+          
+          const href = link.attr('href') || '';
+          const fullUrl = href.startsWith('http') ? href : `https://humanitix.com${href}`;
+          const image = $el.find('img').first().attr('src') || '';
+          
+          if (title && !events.find(e => e.title === title)) {
+            events.push({
+              id: generateEventId(title, new Date().toISOString(), 'Sydney'),
+              title,
+              date: new Date().toISOString(),
+              venueName: 'Sydney',
+              city: 'Sydney',
+              description: title,
+              imageUrl: image,
+              sourceWebsite: 'Humanitix',
+              originalUrl: fullUrl,
+              lastScraped: scrapedAt,
+              status: 'new',
+              createdAt: scrapedAt,
+            });
+          }
+        } catch (e) {
+          // Skip
+        }
+      });
+    }
+
+    console.log(`✅ Humanitix: Found ${events.length} events`);
+
   } catch (error) {
-    console.error('Humanitix scraping error:', error);
+    console.error('❌ Humanitix scraping error:', error);
   }
 
   return {

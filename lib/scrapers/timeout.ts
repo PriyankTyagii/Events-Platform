@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { Event } from '@/types';
 import { fetchHTML, cleanText, parseDate, generateEventId, ScraperResult } from './utils';
 
-const TIMEOUT_SYDNEY_URL = 'https://www.timeout.com/sydney/things-to-do/whats-on-in-sydney-today';
+const TIMEOUT_SYDNEY_URL = 'https://www.timeout.com/sydney/things-to-do/things-to-do-in-sydney-this-week';
 
 export async function scrapeTimeOut(): Promise<ScraperResult> {
   const scrapedAt = new Date().toISOString();
@@ -12,18 +12,18 @@ export async function scrapeTimeOut(): Promise<ScraperResult> {
     const html = await fetchHTML(TIMEOUT_SYDNEY_URL);
     const $ = cheerio.load(html);
 
-    // Time Out uses article cards
-    $('article, .card, [class*="event"]').each((_, element) => {
+    // Time Out article cards
+    $('article, div[class*="card"], div._h1, div[class*="CardWrapper"]').each((_, element) => {
       try {
         const $card = $(element);
         
-        // Try multiple selectors for title
+        // Extract title - try multiple selectors
         const title = cleanText(
-          $card.find('h2, h3, [class*="title"], [class*="heading"]').first().text() ||
-          $card.find('a').first().attr('title') || ''
+          $card.find('h2, h3, h4, a[class*="title"]').first().text() ||
+          $card.find('a').first().text()
         );
 
-        if (!title || title.length < 3) return;
+        if (!title || title.length < 5) return;
 
         // Get link
         const link = $card.find('a').first().attr('href') || '';
@@ -31,34 +31,30 @@ export async function scrapeTimeOut(): Promise<ScraperResult> {
 
         // Get image
         const image = $card.find('img').first().attr('src') || 
-                     $card.find('img').first().attr('data-src') || '';
+                     $card.find('img').first().attr('data-src') || 
+                     $card.find('img').first().attr('data-lazy-src') || '';
 
         // Get description
         const description = cleanText(
-          $card.find('p, [class*="description"], [class*="excerpt"]').first().text()
+          $card.find('p, div[class*="description"], div[class*="excerpt"]').first().text()
         );
 
-        // Get category/tags
+        // Get category
         const category = cleanText(
-          $card.find('[class*="category"], [class*="tag"]').first().text()
-        );
-
-        // Get venue
-        const venue = cleanText(
-          $card.find('[class*="venue"], [class*="location"]').first().text()
+          $card.find('span[class*="category"], a[class*="category"], div[class*="tag"]').first().text()
         );
 
         const dateStr = new Date().toISOString();
 
         if (title && !events.find(e => e.title === title)) {
           events.push({
-            id: generateEventId(title, dateStr, venue),
+            id: generateEventId(title, dateStr, 'Sydney'),
             title,
             date: dateStr,
-            venueName: venue || 'Sydney',
+            venueName: 'Sydney',
             city: 'Sydney',
             description: description || title,
-            category: category || 'Entertainment',
+            category: category || 'Events',
             imageUrl: image,
             sourceWebsite: 'Time Out Sydney',
             originalUrl: fullUrl,
