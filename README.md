@@ -1,49 +1,117 @@
 # Events Platform
-[![Deploy with Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
 
-A full-stack event discovery and management platform with automated scraping, admin dashboard, and AI-powered recommendations.
+[![Deploy with
+Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
+
+A scalable full-stack event discovery and management platform that
+aggregates events from multiple sources, automates data collection, and
+provides AI-powered recommendations through a modern web interface and
+secure admin dashboard.
+
+------------------------------------------------------------------------
+
+## Overview
+
+Events Platform is designed to centralize event discovery and
+management. It combines automated scraping pipelines, a real-time
+database, and an AI assistant to deliver relevant event recommendations
+and streamlined administration.
+
+Key goals of the platform:
+
+-   Aggregate and normalize event data from external sources
+-   Provide a responsive browsing and filtering experience
+-   Enable secure administrative control
+-   Deliver intelligent, conversational event recommendations
+
+------------------------------------------------------------------------
 
 ## Features
 
 ### Core Platform
-- **Event Discovery** - Browse events from multiple sources with real-time updates
-- **Admin Dashboard** - Secure Google OAuth authentication with comprehensive event management
-- **Advanced Filtering** - Search by city, keyword, date range, and status
-- **Automated Scraping** - Scheduled updates every 6 hours via Vercel Cron
-- **Status Tracking** - Automatic detection of new, updated, and inactive events
 
-### AI Assistant (Bonus)
-- **Natural Language Chat** - Interactive event recommendations
-- **Smart Matching** - AI-powered suggestions based on user preferences
-- **Notification System** - Alerts for relevant events
-- **Powered by Phi-3** - Free, open-source LLM via Hugging Face
+-   **Multi-source Event Discovery** --- Real-time browsing of
+    aggregated events
+-   **Admin Dashboard** --- Secure Google OAuth authentication with full
+    event management
+-   **Advanced Search & Filtering** --- Filter by city, keywords, date
+    range, and status
+-   **Automated Scraping Pipeline** --- Scheduled background updates
+    every 6 hours via Vercel Cron
+-   **Event Lifecycle Tracking** --- Detection of new, updated, and
+    inactive events
+
+### AI Assistant
+
+-   **Natural Language Chat Interface** --- Conversational event
+    discovery
+-   **Preference-aware Recommendations** --- AI matching based on user
+    interests
+-   **Smart Notifications** --- Alerts for relevant events
+-   **Phi-3 Integration** --- Open-source LLM via Hugging Face Inference
+    API
+
+------------------------------------------------------------------------
 
 ## Tech Stack
 
-**Frontend:** Next.js 16, TypeScript, TailwindCSS  
-**Backend:** Next.js API Routes, Firebase Firestore  
-**AI:** Hugging Face Inference API (Phi-3)  
-**Deployment:** Vercel  
-**Authentication:** Google OAuth
+**Frontend**\
+Next.js 16 · TypeScript · Tailwind CSS
 
-## Quick Start
+**Backend**\
+Next.js API Routes · Firebase Firestore
 
-```bash
-# Install dependencies
+**AI Layer**\
+Hugging Face Inference API (Phi-3)
+
+**Authentication**\
+Google OAuth (NextAuth)
+
+**Infrastructure & Deployment**\
+Vercel · Vercel Cron Jobs
+
+------------------------------------------------------------------------
+
+## Getting Started
+
+### 1. Clone the repository
+
+``` bash
+git clone <your-repo-url>
+cd events-platform
+```
+
+### 2. Install dependencies
+
+``` bash
 npm install
+```
 
-# Configure environment variables
+### 3. Configure environment variables
+
+``` bash
 cp .env.example .env.local
+```
 
-# Run development server
+Fill in the required credentials (see Environment Variables below).
+
+### 4. Start the development server
+
+``` bash
 npm run dev
 ```
 
-Visit `http://localhost:3000`
+Open:
+
+    http://localhost:3000
+
+------------------------------------------------------------------------
 
 ## Environment Variables
 
-```env
+Create a `.env.local` file with the following configuration:
+
+``` env
 # Firebase
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
@@ -64,43 +132,55 @@ HUGGINGFACE_API_KEY=
 CRON_SECRET=
 ```
 
-## Documentation
-
-- **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)** - Database configuration
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Vercel deployment guide
-- **[ESLINT_FIX_GUIDE.md](ESLINT_FIX_GUIDE.md)** - Dependency troubleshooting
-- **[CRON_FIX_GUIDE.md](CRON_FIX_GUIDE.md)** - Automated scraping setup
+------------------------------------------------------------------------
 
 ## Project Structure
 
-```
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── admin/             # Admin dashboard
-│   └── chat/              # AI chat interface
-├── components/            # React components
-├── lib/                   # Utilities and services
-│   ├── scrapers/         # Event scrapers
-│   ├── db-service.ts     # Database operations
-│   └── ai-service.ts     # AI recommendations
-└── types/                # TypeScript definitions
-```
+    events-platform/
+    ├── app/                   # Next.js App Router
+    │   ├── api/               # Backend API routes
+    │   ├── admin/             # Admin dashboard
+    │   └── chat/              # AI assistant interface
+    ├── components/            # Reusable UI components
+    ├── lib/                   # Core services and utilities
+    │   ├── scrapers/          # Event scraping modules
+    │   ├── db-service.ts      # Database layer
+    │   └── ai-service.ts      # AI integration
+    └── types/                 # TypeScript type definitions
+
+------------------------------------------------------------------------
 
 ## Deployment
 
-Deploy to Vercel with one click:
+### One-click Vercel deployment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
+[![Deploy with
+Vercel](https://vercel.com/button)](https://events-platform-ruddy.vercel.app/)
 
-Or manually:
+### Manual deployment
 
-```bash
-# Build
+``` bash
 npm run build
-
-# Deploy
 vercel --prod
 ```
----
 
-Built By Priyank Tyagi
+Ensure all environment variables are configured in your Vercel dashboard
+before deployment.
+
+------------------------------------------------------------------------
+
+## Documentation
+
+Additional setup and troubleshooting guides:
+
+-   **FIREBASE_SETUP.md** --- Firebase configuration
+-   **DEPLOYMENT.md** --- Production deployment guide
+-   **ESLINT_FIX_GUIDE.md** --- Dependency troubleshooting
+-   **CRON_FIX_GUIDE.md** --- Automated scraping setup
+
+------------------------------------------------------------------------
+
+## Author
+
+**Priyank Tyagi**
+
