@@ -24,6 +24,7 @@ Key goals of the platform:
 -   Enable secure administrative control
 -   Deliver intelligent, conversational event recommendations
 
+
 ------------------------------------------------------------------------
 
 ## Features
@@ -50,7 +51,8 @@ Key goals of the platform:
 -   **Smart Notifications** --- Alerts for relevant events
 -   **Phi-3 Integration** --- Open-source LLM via Hugging Face Inference
     API
-
+    
+<img width="1919" height="868" alt="image" src="https://github.com/user-attachments/assets/137a973c-319b-4678-8de8-28ee4cb81ff0" />
 ------------------------------------------------------------------------
 
 ## Tech Stack
