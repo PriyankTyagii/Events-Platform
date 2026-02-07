@@ -89,7 +89,7 @@ CRON_SECRET=
 
 Deploy to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)(https://events-platform-ruddy.vercel.app/)
+[![Deploy with Vercel](https://vercel.com/button)[(https://events-platform-ruddy.vercel.app/)]
 
 Or manually:
 
